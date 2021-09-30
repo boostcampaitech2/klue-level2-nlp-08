@@ -15,14 +15,15 @@ class RelationExtractionDataset(Dataset):
     """
 
     def __init__(self, pair_dataset, labels, phase, split_ratio=0.2):
+        torch.manual_seed(42)
+
         self.labels = labels
         self.phase = phase
         self.split_ratio = split_ratio
         self.data_inven = self.get_data(pair_dataset)
 
-        torch.manual_seed(42)
-
     def get_data(self, pair_dataset):
+
         submission_counts = get_submission_counts()
 
         valid_idx = list(WeightedRandomSampler([submission_counts[label] for label in self.labels],
